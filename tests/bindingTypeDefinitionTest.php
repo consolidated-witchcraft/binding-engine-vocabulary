@@ -67,6 +67,86 @@ use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinit
     yield 'all whitespace' => '   ';
 });
 
+\it('rejects empty labels', function ($emptyLabel) {
+    \expect(function () use ($emptyLabel) {
+        new BindingTypeDefinition(
+            identifier: 'test',
+            label: $emptyLabel,
+            description: 'Description',
+            allowedPayloadShapes:  [
+                BindingPayloadShapeEnum::Shorthand,
+            ],
+            attributeDefinitions: [
+                new AttributeDefinition(
+                    identifier: 'test',
+                    label: 'Test Attribute Label',
+                    description: 'test Attribute Description',
+                    valueType: AttributeValueTypeEnum::String,
+                    required: true,
+                    repeatable: false,
+                    allowedValues: null
+                )
+            ]
+        );
+    })->toThrow(new InvalidBindingTypeDefinitionException(), 'Binding type label must not be empty.');
+})->with(function (): iterable {
+    yield 'empty string' => '';
+    yield 'all whitespace' => '   ';
+});
+
+\it('rejects empty descriptions', function ($emptyDescription) {
+    \expect(function () use ($emptyDescription) {
+        new BindingTypeDefinition(
+            identifier: 'test',
+            label: 'Label',
+            description: $emptyDescription,
+            allowedPayloadShapes:  [
+                BindingPayloadShapeEnum::Shorthand,
+            ],
+            attributeDefinitions: [
+                new AttributeDefinition(
+                    identifier: 'test',
+                    label: 'Test Attribute Label',
+                    description: 'test Attribute Description',
+                    valueType: AttributeValueTypeEnum::String,
+                    required: true,
+                    repeatable: false,
+                    allowedValues: null
+                )
+            ]
+        );
+    })->toThrow(new InvalidBindingTypeDefinitionException(), 'Binding type description must not be empty.');
+})->with(function (): iterable {
+    yield 'empty string' => '';
+    yield 'all whitespace' => '   ';
+});
+
+\it(
+    'rejects empty payload shapes',
+    function () {
+        \expect(function () {
+            new BindingTypeDefinition(
+                identifier: 'test',
+                label: 'Label',
+                description: 'Description',
+                allowedPayloadShapes:  [
+                ],
+                attributeDefinitions: [
+                    new AttributeDefinition(
+                        identifier: 'test',
+                        label: 'Test Attribute Label',
+                        description: 'test Attribute Description',
+                        valueType: AttributeValueTypeEnum::String,
+                        required: true,
+                        repeatable: false,
+                        allowedValues: null
+                    )
+                ]
+            );
+        })->toThrow(new InvalidBindingTypeDefinitionException(), 'Binding type definition must allow at least one payload shape.');
+    }
+);
+
 \it('rejects invalid identifiers', function (string $invalidIdentifier) {
     \expect(function () use ($invalidIdentifier) {
         new BindingTypeDefinition(
