@@ -14,6 +14,7 @@ use ConundrumCodex\BindingEngine\Vocabulary\AttributeDefinition;
 use ConundrumCodex\BindingEngine\Vocabulary\BindingTypeDefinition;
 use ConundrumCodex\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
 use ConundrumCodex\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
+use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidAttributeDefinitionException;
 use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinitionException;
 use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidVocabularyException;
 use ConundrumCodex\BindingEngine\Vocabulary\Validator;
@@ -593,6 +594,7 @@ it(
      * @throws InvalidAttributeAssignmentNodeException
      * @throws SourceSpanConstructionException
      * @throws InvalidBindingTypeDefinitionException
+     * @throws InvalidAttributeDefinitionException
      */
     function () {
         $parser = new Parser();
