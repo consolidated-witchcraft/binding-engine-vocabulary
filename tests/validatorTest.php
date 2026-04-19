@@ -530,3 +530,217 @@ it(
             ->and($validationResult->hasErrors())->toBeFalse();
     }
 );
+
+it(
+    'validates a correct enum attribute value without diagnostics',
+    /**
+     * @throws InvalidVocabularyException
+     * @throws DiagnosticConstructionException
+     * @throws InvalidBindingNodeException
+     * @throws InvalidAttributeListPayloadNodeException
+     * @throws InvalidShorthandPayloadNodeException
+     * @throws InvalidTextNodeException
+     * @throws InvalidAttributeAssignmentNodeException
+     * @throws SourceSpanConstructionException
+     * @throws InvalidBindingTypeDefinitionException
+     */
+    function () {
+        $parser = new Parser();
+
+        $source = '@event[status:draft]';
+        $parseResult = $parser->parse($source);
+
+        $vocabulary = new Vocabulary([
+            new BindingTypeDefinition(
+                identifier: 'event',
+                label: 'Event',
+                description: 'An event binding.',
+                allowedPayloadShapes: [
+                    BindingPayloadShapeEnum::AttributeList,
+                ],
+                attributeDefinitions: [
+                    new AttributeDefinition(
+                        identifier: 'status',
+                        label: 'Status',
+                        description: 'The event status.',
+                        valueType: AttributeValueTypeEnum::Enum,
+                        required: true,
+                        repeatable: false,
+                        allowedValues: ['draft', 'published'],
+                    ),
+                ],
+            ),
+        ]);
+
+        $validator = new Validator($vocabulary);
+        $validationResult = $validator->validate($parseResult->getDocument());
+
+        expect($validationResult->getDiagnostics())->toBe([])
+            ->and($validationResult->hasDiagnostics())->toBeFalse()
+            ->and($validationResult->hasErrors())->toBeFalse();
+    }
+);
+
+it(
+    'produces a diagnostic for an invalid enum attribute value',
+    /**
+     * @throws InvalidVocabularyException
+     * @throws DiagnosticConstructionException
+     * @throws InvalidBindingNodeException
+     * @throws InvalidAttributeListPayloadNodeException
+     * @throws InvalidShorthandPayloadNodeException
+     * @throws InvalidTextNodeException
+     * @throws InvalidAttributeAssignmentNodeException
+     * @throws SourceSpanConstructionException
+     * @throws InvalidBindingTypeDefinitionException
+     */
+    function () {
+        $parser = new Parser();
+
+        $source = '@event[status:archived]';
+        $parseResult = $parser->parse($source);
+
+        $vocabulary = new Vocabulary([
+            new BindingTypeDefinition(
+                identifier: 'event',
+                label: 'Event',
+                description: 'An event binding.',
+                allowedPayloadShapes: [
+                    BindingPayloadShapeEnum::AttributeList,
+                ],
+                attributeDefinitions: [
+                    new AttributeDefinition(
+                        identifier: 'status',
+                        label: 'Status',
+                        description: 'The event status.',
+                        valueType: AttributeValueTypeEnum::Enum,
+                        required: true,
+                        repeatable: false,
+                        allowedValues: ['draft', 'published'],
+                    ),
+                ],
+            ),
+        ]);
+
+        $validator = new Validator($vocabulary);
+        $validationResult = $validator->validate($parseResult->getDocument());
+
+        expect($validationResult->hasDiagnostics())->toBeTrue()
+            ->and($validationResult->hasErrors())->toBeTrue()
+            ->and($validationResult->getDiagnostics())->toHaveCount(1);
+
+        $diagnostic = $validationResult->getDiagnostics()[0];
+
+        expect($diagnostic->getCode())->toBe('vocabulary.attribute.invalid_value')
+            ->and($diagnostic->getMessage())->toBe('Attribute "status" must contain one of the allowed values.')
+            ->and($diagnostic->getSourceSpan())->not->toBeNull()
+            ->and($diagnostic->getSourceSpan()->extract($source))->toBe('status:archived');
+    }
+);
+
+it(
+    'validates a correct identifier attribute value without diagnostics',
+    /**
+     * @throws InvalidVocabularyException
+     * @throws DiagnosticConstructionException
+     * @throws InvalidBindingNodeException
+     * @throws InvalidAttributeListPayloadNodeException
+     * @throws InvalidShorthandPayloadNodeException
+     * @throws InvalidTextNodeException
+     * @throws InvalidAttributeAssignmentNodeException
+     * @throws SourceSpanConstructionException
+     * @throws InvalidBindingTypeDefinitionException
+     */
+    function () {
+        $parser = new Parser();
+
+        $source = '@event[subject:jane-austen]';
+        $parseResult = $parser->parse($source);
+
+        $vocabulary = new Vocabulary([
+            new BindingTypeDefinition(
+                identifier: 'event',
+                label: 'Event',
+                description: 'An event binding.',
+                allowedPayloadShapes: [
+                    BindingPayloadShapeEnum::AttributeList,
+                ],
+                attributeDefinitions: [
+                    new AttributeDefinition(
+                        identifier: 'subject',
+                        label: 'Subject',
+                        description: 'The event subject.',
+                        valueType: AttributeValueTypeEnum::Identifier,
+                        required: true,
+                        repeatable: false,
+                        allowedValues: null,
+                    ),
+                ],
+            ),
+        ]);
+
+        $validator = new Validator($vocabulary);
+        $validationResult = $validator->validate($parseResult->getDocument());
+
+        expect($validationResult->getDiagnostics())->toBe([])
+            ->and($validationResult->hasDiagnostics())->toBeFalse()
+            ->and($validationResult->hasErrors())->toBeFalse();
+    }
+);
+
+it(
+    'produces a diagnostic for an invalid identifier attribute value',
+    /**
+     * @throws InvalidVocabularyException
+     * @throws DiagnosticConstructionException
+     * @throws InvalidBindingNodeException
+     * @throws InvalidAttributeListPayloadNodeException
+     * @throws InvalidShorthandPayloadNodeException
+     * @throws InvalidTextNodeException
+     * @throws InvalidAttributeAssignmentNodeException
+     * @throws SourceSpanConstructionException
+     * @throws InvalidBindingTypeDefinitionException
+     */
+    function () {
+        $parser = new Parser();
+
+        $source = '@event[subject:Jane Austen]';
+        $parseResult = $parser->parse($source);
+
+        $vocabulary = new Vocabulary([
+            new BindingTypeDefinition(
+                identifier: 'event',
+                label: 'Event',
+                description: 'An event binding.',
+                allowedPayloadShapes: [
+                    BindingPayloadShapeEnum::AttributeList,
+                ],
+                attributeDefinitions: [
+                    new AttributeDefinition(
+                        identifier: 'subject',
+                        label: 'Subject',
+                        description: 'The event subject.',
+                        valueType: AttributeValueTypeEnum::Identifier,
+                        required: true,
+                        repeatable: false,
+                        allowedValues: null,
+                    ),
+                ],
+            ),
+        ]);
+
+        $validator = new Validator($vocabulary);
+        $validationResult = $validator->validate($parseResult->getDocument());
+
+        expect($validationResult->hasDiagnostics())->toBeTrue()
+            ->and($validationResult->hasErrors())->toBeTrue()
+            ->and($validationResult->getDiagnostics())->toHaveCount(1);
+
+        $diagnostic = $validationResult->getDiagnostics()[0];
+
+        expect($diagnostic->getCode())->toBe('vocabulary.attribute.invalid_value')
+            ->and($diagnostic->getMessage())->toBe('Attribute "subject" must contain a valid identifier value.')
+            ->and($diagnostic->getSourceSpan())->not->toBeNull()
+            ->and($diagnostic->getSourceSpan()->extract($source))->toBe('subject:Jane Austen');
+    }
+);

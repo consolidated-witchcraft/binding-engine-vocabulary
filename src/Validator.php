@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace ConundrumCodex\BindingEngine\Vocabulary;
 
+use ConundrumCodex\BindingEngine\Parser\Ast\Nodes\AttributeAssignmentNode;
 use ConundrumCodex\BindingEngine\Parser\Ast\Nodes\AttributeListPayloadNode;
 use ConundrumCodex\BindingEngine\Parser\Ast\Nodes\BindingNode;
 use ConundrumCodex\BindingEngine\Parser\Ast\Nodes\DocumentNode;
 use ConundrumCodex\BindingEngine\Parser\Diagnostics\Diagnostic;
 use ConundrumCodex\BindingEngine\Parser\Diagnostics\Enums\DiagnosticSeverityEnum;
 use ConundrumCodex\BindingEngine\Parser\Diagnostics\Exceptions\DiagnosticConstructionException;
+use ConundrumCodex\BindingEngine\Parser\Language\IdentifierPatterns;
+use ConundrumCodex\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
 use ConundrumCodex\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
+use ConundrumCodex\BindingEngine\Vocabulary\Interfaces\AttributeDefinitionInterface;
 use ConundrumCodex\BindingEngine\Vocabulary\Interfaces\BindingTypeDefinitionInterface;
 use ConundrumCodex\BindingEngine\Vocabulary\Interfaces\ValidatorInterface;
 use ConundrumCodex\BindingEngine\Vocabulary\Interfaces\VocabularyInterface;
@@ -22,6 +26,9 @@ final readonly class Validator implements ValidatorInterface
     ) {
     }
 
+    /**
+     * @throws DiagnosticConstructionException
+     */
     public function validate(DocumentNode $document): ValidationResult
     {
         $diagnostics = [];
@@ -31,9 +38,7 @@ final readonly class Validator implements ValidatorInterface
                 continue;
             }
 
-            $bindingDiagnostics = $this->validateBinding($child);
-
-            foreach ($bindingDiagnostics as $diagnostic) {
+            foreach ($this->validateBinding($child) as $diagnostic) {
                 $diagnostics[] = $diagnostic;
             }
         }
@@ -146,6 +151,14 @@ final readonly class Validator implements ValidatorInterface
                     severity: DiagnosticSeverityEnum::Error,
                     sourceSpan: $attributeAssignment->getSpan(),
                 );
+
+                continue;
+            }
+
+            $valueDiagnostic = $this->validateAttributeValue($attributeAssignment, $attributeDefinition);
+
+            if ($valueDiagnostic !== null) {
+                $diagnostics[] = $valueDiagnostic;
             }
         }
 
@@ -167,5 +180,74 @@ final readonly class Validator implements ValidatorInterface
         }
 
         return $diagnostics;
+    }
+
+    private function validateAttributeValue(
+        AttributeAssignmentNode $attributeAssignment,
+        AttributeDefinitionInterface $attributeDefinition,
+    ): ?Diagnostic {
+        $value = $attributeAssignment->getValue();
+
+        return match ($attributeDefinition->getValueType()) {
+            AttributeValueTypeEnum::String => null,
+            AttributeValueTypeEnum::Identifier => $this->validateIdentifierValue(
+                $attributeAssignment,
+                $attributeDefinition,
+                $value,
+            ),
+            AttributeValueTypeEnum::Enum => $this->validateEnumValue(
+                $attributeAssignment,
+                $attributeDefinition,
+                $value,
+            ),
+        };
+    }
+
+    /**
+     * @throws DiagnosticConstructionException
+     */
+    private function validateIdentifierValue(
+        AttributeAssignmentNode $attributeAssignment,
+        AttributeDefinitionInterface $attributeDefinition,
+        string $value,
+    ): ?Diagnostic {
+        if (preg_match(IdentifierPatterns::ATTRIBUTE_IDENTIFIER, $value) === 1) {
+            return null;
+        }
+
+        return new Diagnostic(
+            message: sprintf(
+                'Attribute "%s" must contain a valid identifier value.',
+                $attributeDefinition->getIdentifier(),
+            ),
+            code: 'vocabulary.attribute.invalid_value',
+            severity: DiagnosticSeverityEnum::Error,
+            sourceSpan: $attributeAssignment->getSpan(),
+        );
+    }
+
+    /**
+     * @throws DiagnosticConstructionException
+     */
+    private function validateEnumValue(
+        AttributeAssignmentNode $attributeAssignment,
+        AttributeDefinitionInterface $attributeDefinition,
+        string $value,
+    ): ?Diagnostic {
+        $allowedValues = $attributeDefinition->getAllowedValues();
+
+        if ($allowedValues !== null && in_array($value, $allowedValues, true)) {
+            return null;
+        }
+
+        return new Diagnostic(
+            message: sprintf(
+                'Attribute "%s" must contain one of the allowed values.',
+                $attributeDefinition->getIdentifier(),
+            ),
+            code: 'vocabulary.attribute.invalid_value',
+            severity: DiagnosticSeverityEnum::Error,
+            sourceSpan: $attributeAssignment->getSpan(),
+        );
     }
 }
