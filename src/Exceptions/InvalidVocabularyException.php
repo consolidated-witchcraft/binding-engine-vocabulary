@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace ConundrumCodex\BindingEngine\Vocabulary\Exceptions;
 
-class InvalidAttributeDefinitionException extends AbstractVocabularyException
+class InvalidVocabularyException
 {
 }
