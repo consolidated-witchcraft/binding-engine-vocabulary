@@ -6,4 +6,12 @@ namespace ConundrumCodex\BindingEngine\Vocabulary\Interfaces;
 
 interface VocabularyInterface
 {
+    /**
+     * @return list<BindingTypeDefinitionInterface>
+     */
+    public function getBindingTypeDefinitions(): array;
+
+    public function hasBindingTypeDefinition(string $identifier): bool;
+
+    public function getBindingTypeDefinition(string $identifier): ?BindingTypeDefinitionInterface;
 }
