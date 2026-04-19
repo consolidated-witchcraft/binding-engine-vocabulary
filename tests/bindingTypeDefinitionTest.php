@@ -37,7 +37,7 @@ use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinit
     \expect($definition->getLabel())->toBe($label);
     \expect($definition->getDescription())->toBe($description);
     \expect($definition->getAllowedPayloadShapes())->toBe($allowedPayloadShapes);
-    \expect($definition->getAttributeDefinitions())->toBe($definition->getAttributeDefinitions());
+    \expect($definition->getAttributeDefinitions())->toBe($attributeDefinitions);
 });
 
 \it('rejects empty identifiers', function ($emptyIdentifier) {
@@ -61,7 +61,7 @@ use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinit
                 )
             ]
         );
-    })->toThrow(new InvalidBindingTypeDefinitionException(), 'Binding type identifier must not be empty.');
+    })->toThrow(InvalidBindingTypeDefinitionException::class, 'Binding type identifier must not be empty.');
 })->with(function (): iterable {
     yield 'empty string' => '';
     yield 'all whitespace' => '   ';
@@ -88,7 +88,7 @@ use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinit
                 )
             ]
         );
-    })->toThrow(new InvalidBindingTypeDefinitionException(), 'Binding type label must not be empty.');
+    })->toThrow(InvalidBindingTypeDefinitionException::class, 'Binding type label must not be empty.');
 })->with(function (): iterable {
     yield 'empty string' => '';
     yield 'all whitespace' => '   ';
@@ -115,7 +115,7 @@ use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinit
                 )
             ]
         );
-    })->toThrow(new InvalidBindingTypeDefinitionException(), 'Binding type description must not be empty.');
+    })->toThrow(InvalidBindingTypeDefinitionException::class, 'Binding type description must not be empty.');
 })->with(function (): iterable {
     yield 'empty string' => '';
     yield 'all whitespace' => '   ';
@@ -143,7 +143,7 @@ use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinit
                     )
                 ]
             );
-        })->toThrow(new InvalidBindingTypeDefinitionException(), 'Binding type definition must allow at least one payload shape.');
+        })->toThrow(InvalidBindingTypeDefinitionException::class, 'Binding type definition must allow at least one payload shape.');
     }
 );
 
@@ -168,7 +168,7 @@ use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinit
                 )
             ]
         );
-    })->toThrow(new InvalidBindingTypeDefinitionException(), sprintf(
+    })->toThrow(InvalidBindingTypeDefinitionException::class, sprintf(
         'Invalid binding type identifier "%s".',
         $invalidIdentifier,
     ));
@@ -195,4 +195,95 @@ use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinit
     yield 'hyphen after trim' => ' -event';
     yield 'numeric only' => '123';
     yield 'mixed invalid characters' => 'ev@nt-ty#pe';
+});
+
+\it('rejects duplicate attributes', function () {
+    \expect(function () {
+        new BindingTypeDefinition(
+            identifier: 'identifier',
+            label: 'Label',
+            description: 'Description',
+            allowedPayloadShapes:  [
+                BindingPayloadShapeEnum::Shorthand,
+            ],
+            attributeDefinitions: [
+                new AttributeDefinition(
+                    identifier: 'test',
+                    label: 'Test Attribute Label',
+                    description: 'test Attribute Description',
+                    valueType: AttributeValueTypeEnum::String,
+                    required: true,
+                    repeatable: false,
+                    allowedValues: null
+                ),
+                new AttributeDefinition(
+                    identifier: 'test',
+                    label: 'Test Attribute Label',
+                    description: 'test Attribute Description',
+                    valueType: AttributeValueTypeEnum::String,
+                    required: true,
+                    repeatable: false,
+                    allowedValues: null
+                )
+            ]
+        );
+    })->toThrow(InvalidBindingTypeDefinitionException::class, 'Binding type definition contains duplicate attribute definition "test".');
+});
+
+it('constructs correctly with no attribute definitions', function () {
+    $definition = new BindingTypeDefinition(
+        identifier: 'person',
+        label: 'Person',
+        description: 'Person description',
+        allowedPayloadShapes: [BindingPayloadShapeEnum::Shorthand],
+        attributeDefinitions: []
+    );
+
+    expect($definition->getAttributeDefinitions())->toBe([])
+        ->and($definition->getRequiredAttributeDefinitions())->toBe([]);
+});
+
+it('exposes attribute and payload shape lookups correctly', function () {
+    $requiredAttribute = new AttributeDefinition(
+        identifier: 'type',
+        label: 'Type',
+        description: 'Type description',
+        valueType: AttributeValueTypeEnum::String,
+        required: true,
+        repeatable: false,
+        allowedValues: null
+    );
+
+    $optionalAttribute = new AttributeDefinition(
+        identifier: 'subject',
+        label: 'Subject',
+        description: 'Subject description',
+        valueType: AttributeValueTypeEnum::String,
+        required: false,
+        repeatable: false,
+        allowedValues: null
+    );
+
+    $definition = new BindingTypeDefinition(
+        identifier: 'event',
+        label: 'Event',
+        description: 'Event description',
+        allowedPayloadShapes: [
+            BindingPayloadShapeEnum::Shorthand,
+            BindingPayloadShapeEnum::AttributeList,
+        ],
+        attributeDefinitions: [
+            $requiredAttribute,
+            $optionalAttribute,
+        ]
+    );
+
+    expect($definition->allowsPayloadShape(BindingPayloadShapeEnum::Shorthand))->toBeTrue()
+        ->and($definition->allowsPayloadShape(BindingPayloadShapeEnum::AttributeList))->toBeTrue()
+        ->and($definition->hasAttributeDefinition('type'))->toBeTrue()
+        ->and($definition->hasAttributeDefinition('subject'))->toBeTrue()
+        ->and($definition->hasAttributeDefinition('location'))->toBeFalse()
+        ->and($definition->getAttributeDefinition('type'))->toBe($requiredAttribute)
+        ->and($definition->getAttributeDefinition('location'))->toBeNull()
+        ->and($definition->getRequiredAttributeDefinitions())->toBe([$requiredAttribute]);
 });
