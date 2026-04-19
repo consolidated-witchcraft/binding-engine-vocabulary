@@ -121,7 +121,7 @@ use ConundrumCodex\BindingEngine\Vocabulary\Vocabulary;
                     ]
                 );
             }
-        )->toThrow(InvalidVocabularyException::class);
+        )->toThrow(InvalidVocabularyException::class, 'Vocabulary contains duplicate binding type definition "identifier".');
     }
 );
 
@@ -235,6 +235,9 @@ use ConundrumCodex\BindingEngine\Vocabulary\Vocabulary;
 
 \it(
     'rejects invalid versions',
+    /**
+     * @throws InvalidVocabularyException
+     */
     function (string $invalidVersion) {
         \expect(function () use ($invalidVersion) {
             new Vocabulary(
@@ -292,6 +295,7 @@ use ConundrumCodex\BindingEngine\Vocabulary\Vocabulary;
     yield 'ampersand' => 'Research & Development';
     yield 'comma' => 'City, State';
     yield 'parentheses' => 'Event (Annual)';
+    yield 'ends with closing parenthesis' => 'Event (Annual Edition)';
     yield 'colon' => 'Chapter: One';
     yield 'full stop' => 'Version 2.0';
     yield 'mixed allowed punctuation' => "Guild & Co. (North) - Chapter 2: Founder's Edition";
@@ -299,16 +303,25 @@ use ConundrumCodex\BindingEngine\Vocabulary\Vocabulary;
     yield 'maximum length' => str_repeat('A', 64);
 });
 
-it('accepts valid versions', function (string $validVersion) {
-    $vocabulary = new Vocabulary(
-        identifier: 'test-vocabulary',
-        label: 'Test Label',
-        version: $validVersion,
-        bindingTypeDefinitions: []
-    );
+it(
+    'accepts valid versions',
+    /**
+     * @throws InvalidVocabularyException
+     */
+    function (string $validVersion) {
+        /**
+         * @throws InvalidVocabularyException
+         */
+        $vocabulary = new Vocabulary(
+            identifier: 'test-vocabulary',
+            label: 'Test Label',
+            version: $validVersion,
+            bindingTypeDefinitions: []
+        );
 
-    expect($vocabulary->getVersion())->toBe($validVersion);
-})->with(function (): iterable {
+        expect($vocabulary->getVersion())->toBe($validVersion);
+    }
+)->with(function (): iterable {
     yield 'simple semantic version' => '1.2.3';
     yield 'zero semantic version' => '0.1.0';
     yield 'prerelease' => '1.2.3-alpha';
