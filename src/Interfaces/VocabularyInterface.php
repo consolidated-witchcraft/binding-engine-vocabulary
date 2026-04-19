@@ -14,4 +14,6 @@ interface VocabularyInterface
     public function hasBindingTypeDefinition(string $identifier): bool;
 
     public function getBindingTypeDefinition(string $identifier): ?BindingTypeDefinitionInterface;
+
+    public function getVersion(): string;
 }

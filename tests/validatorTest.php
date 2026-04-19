@@ -38,17 +38,22 @@ it(
 
         $parseResult = $parser->parse('@person[jane-austen](Jane Austen)');
 
-        $vocabulary = new Vocabulary([
-            new BindingTypeDefinition(
-                identifier: 'person',
-                label: 'Person',
-                description: 'A person binding.',
-                allowedPayloadShapes: [
-                    BindingPayloadShapeEnum::Shorthand,
-                ],
-                attributeDefinitions: [],
-            ),
-        ]);
+        $vocabulary = new Vocabulary(
+            'test-vocabulary',
+            'Test Vocabulary',
+            '0.1.0',
+            [
+                new BindingTypeDefinition(
+                    identifier: 'person',
+                    label: 'Person',
+                    description: 'A person binding.',
+                    allowedPayloadShapes: [
+                        BindingPayloadShapeEnum::Shorthand,
+                    ],
+                    attributeDefinitions: [],
+                ),
+            ]
+        );
 
         $validator = new Validator($vocabulary);
         $validationResult = $validator->validate($parseResult->getDocument());
@@ -76,7 +81,12 @@ it(
 
         $parseResult = $parser->parse('@unknown[something](Something)');
 
-        $validator = new Validator(new Vocabulary([]));
+        $validator = new Validator(new Vocabulary(
+            'test-vocabulary',
+            'Test Vocabulary',
+            '0.1.0',
+            []
+        ));
         $validationResult = $validator->validate($parseResult->getDocument());
 
         expect($validationResult->hasDiagnostics())->toBeTrue()
@@ -112,27 +122,32 @@ it(
         $source = '@event[battle-of-somewhere](Battle of Somewhere)';
         $parseResult = $parser->parse($source);
 
-        $vocabulary = new Vocabulary([
-            new BindingTypeDefinition(
-                identifier: 'event',
-                label: 'Event',
-                description: 'An event binding.',
-                allowedPayloadShapes: [
-                    BindingPayloadShapeEnum::AttributeList,
-                ],
-                attributeDefinitions: [
-                    new AttributeDefinition(
-                        identifier: 'type',
-                        label: 'Type',
-                        description: 'The event type.',
-                        valueType: AttributeValueTypeEnum::String,
-                        required: true,
-                        repeatable: false,
-                        allowedValues: null,
-                    ),
-                ],
-            ),
-        ]);
+        $vocabulary = new Vocabulary(
+            'test-vocabulary',
+            'Test Vocabulary',
+            '0.1.0',
+            [
+                new BindingTypeDefinition(
+                    identifier: 'event',
+                    label: 'Event',
+                    description: 'An event binding.',
+                    allowedPayloadShapes: [
+                        BindingPayloadShapeEnum::AttributeList,
+                    ],
+                    attributeDefinitions: [
+                        new AttributeDefinition(
+                            identifier: 'type',
+                            label: 'Type',
+                            description: 'The event type.',
+                            valueType: AttributeValueTypeEnum::String,
+                            required: true,
+                            repeatable: false,
+                            allowedValues: null,
+                        ),
+                    ],
+                ),
+            ]
+        );
 
         $validator = new Validator($vocabulary);
         $validationResult = $validator->validate($parseResult->getDocument());
@@ -169,27 +184,32 @@ it(
         $source = '@event[type:birth, subject:jane-austen]';
         $parseResult = $parser->parse($source);
 
-        $vocabulary = new Vocabulary([
-            new BindingTypeDefinition(
-                identifier: 'event',
-                label: 'Event',
-                description: 'An event binding.',
-                allowedPayloadShapes: [
-                    BindingPayloadShapeEnum::AttributeList,
-                ],
-                attributeDefinitions: [
-                    new AttributeDefinition(
-                        identifier: 'type',
-                        label: 'Type',
-                        description: 'The event type.',
-                        valueType: AttributeValueTypeEnum::String,
-                        required: true,
-                        repeatable: false,
-                        allowedValues: null,
-                    ),
-                ],
-            ),
-        ]);
+        $vocabulary = new Vocabulary(
+            'test-vocabulary',
+            'Test Vocabulary',
+            '0.1.0',
+            [
+                new BindingTypeDefinition(
+                    identifier: 'event',
+                    label: 'Event',
+                    description: 'An event binding.',
+                    allowedPayloadShapes: [
+                        BindingPayloadShapeEnum::AttributeList,
+                    ],
+                    attributeDefinitions: [
+                        new AttributeDefinition(
+                            identifier: 'type',
+                            label: 'Type',
+                            description: 'The event type.',
+                            valueType: AttributeValueTypeEnum::String,
+                            required: true,
+                            repeatable: false,
+                            allowedValues: null,
+                        ),
+                    ],
+                ),
+            ]
+        );
 
         $validator = new Validator($vocabulary);
         $validationResult = $validator->validate($parseResult->getDocument());
@@ -226,27 +246,32 @@ it(
         $source = '@event[type:birth, type:death]';
         $parseResult = $parser->parse($source);
 
-        $vocabulary = new Vocabulary([
-            new BindingTypeDefinition(
-                identifier: 'event',
-                label: 'Event',
-                description: 'An event binding.',
-                allowedPayloadShapes: [
-                    BindingPayloadShapeEnum::AttributeList,
-                ],
-                attributeDefinitions: [
-                    new AttributeDefinition(
-                        identifier: 'type',
-                        label: 'Type',
-                        description: 'The event type.',
-                        valueType: AttributeValueTypeEnum::String,
-                        required: true,
-                        repeatable: false,
-                        allowedValues: null,
-                    ),
-                ],
-            ),
-        ]);
+        $vocabulary = new Vocabulary(
+            'test-vocabulary',
+            'Test Vocabulary',
+            '0.1.0',
+            [
+                new BindingTypeDefinition(
+                    identifier: 'event',
+                    label: 'Event',
+                    description: 'An event binding.',
+                    allowedPayloadShapes: [
+                        BindingPayloadShapeEnum::AttributeList,
+                    ],
+                    attributeDefinitions: [
+                        new AttributeDefinition(
+                            identifier: 'type',
+                            label: 'Type',
+                            description: 'The event type.',
+                            valueType: AttributeValueTypeEnum::String,
+                            required: true,
+                            repeatable: false,
+                            allowedValues: null,
+                        ),
+                    ],
+                ),
+            ]
+        );
 
         $validator = new Validator($vocabulary);
         $validationResult = $validator->validate($parseResult->getDocument());
@@ -283,36 +308,41 @@ it(
         $source = '@event[type:birth]';
         $parseResult = $parser->parse($source);
 
-        $vocabulary = new Vocabulary([
-            new BindingTypeDefinition(
-                identifier: 'event',
-                label: 'Event',
-                description: 'An event binding.',
-                allowedPayloadShapes: [
-                    BindingPayloadShapeEnum::AttributeList,
-                ],
-                attributeDefinitions: [
-                    new AttributeDefinition(
-                        identifier: 'type',
-                        label: 'Type',
-                        description: 'The event type.',
-                        valueType: AttributeValueTypeEnum::String,
-                        required: true,
-                        repeatable: false,
-                        allowedValues: null,
-                    ),
-                    new AttributeDefinition(
-                        identifier: 'subject',
-                        label: 'Subject',
-                        description: 'The event subject.',
-                        valueType: AttributeValueTypeEnum::String,
-                        required: true,
-                        repeatable: false,
-                        allowedValues: null,
-                    ),
-                ],
-            ),
-        ]);
+        $vocabulary = new Vocabulary(
+            'test-vocabulary',
+            'Test Vocabulary',
+            '0.1.0',
+            [
+                new BindingTypeDefinition(
+                    identifier: 'event',
+                    label: 'Event',
+                    description: 'An event binding.',
+                    allowedPayloadShapes: [
+                        BindingPayloadShapeEnum::AttributeList,
+                    ],
+                    attributeDefinitions: [
+                        new AttributeDefinition(
+                            identifier: 'type',
+                            label: 'Type',
+                            description: 'The event type.',
+                            valueType: AttributeValueTypeEnum::String,
+                            required: true,
+                            repeatable: false,
+                            allowedValues: null,
+                        ),
+                        new AttributeDefinition(
+                            identifier: 'subject',
+                            label: 'Subject',
+                            description: 'The event subject.',
+                            valueType: AttributeValueTypeEnum::String,
+                            required: true,
+                            repeatable: false,
+                            allowedValues: null,
+                        ),
+                    ],
+                ),
+            ]
+        );
 
         $validator = new Validator($vocabulary);
         $validationResult = $validator->validate($parseResult->getDocument());
@@ -349,36 +379,41 @@ it(
         $source = '@event[type:birth, type:death, location:somewhere]';
         $parseResult = $parser->parse($source);
 
-        $vocabulary = new Vocabulary([
-            new BindingTypeDefinition(
-                identifier: 'event',
-                label: 'Event',
-                description: 'An event binding.',
-                allowedPayloadShapes: [
-                    BindingPayloadShapeEnum::AttributeList,
-                ],
-                attributeDefinitions: [
-                    new AttributeDefinition(
-                        identifier: 'type',
-                        label: 'Type',
-                        description: 'The event type.',
-                        valueType: AttributeValueTypeEnum::String,
-                        required: true,
-                        repeatable: false,
-                        allowedValues: null,
-                    ),
-                    new AttributeDefinition(
-                        identifier: 'subject',
-                        label: 'Subject',
-                        description: 'The event subject.',
-                        valueType: AttributeValueTypeEnum::String,
-                        required: true,
-                        repeatable: false,
-                        allowedValues: null,
-                    ),
-                ],
-            ),
-        ]);
+        $vocabulary = new Vocabulary(
+            'test-vocabulary',
+            'Test Vocabulary',
+            '0.1.0',
+            [
+                new BindingTypeDefinition(
+                    identifier: 'event',
+                    label: 'Event',
+                    description: 'An event binding.',
+                    allowedPayloadShapes: [
+                        BindingPayloadShapeEnum::AttributeList,
+                    ],
+                    attributeDefinitions: [
+                        new AttributeDefinition(
+                            identifier: 'type',
+                            label: 'Type',
+                            description: 'The event type.',
+                            valueType: AttributeValueTypeEnum::String,
+                            required: true,
+                            repeatable: false,
+                            allowedValues: null,
+                        ),
+                        new AttributeDefinition(
+                            identifier: 'subject',
+                            label: 'Subject',
+                            description: 'The event subject.',
+                            valueType: AttributeValueTypeEnum::String,
+                            required: true,
+                            repeatable: false,
+                            allowedValues: null,
+                        ),
+                    ],
+                ),
+            ]
+        );
 
         $validator = new Validator($vocabulary);
         $validationResult = $validator->validate($parseResult->getDocument());
@@ -419,36 +454,41 @@ it(
         $source = '@event[type:birth, subject:jane-austen]';
         $parseResult = $parser->parse($source);
 
-        $vocabulary = new Vocabulary([
-            new BindingTypeDefinition(
-                identifier: 'event',
-                label: 'Event',
-                description: 'An event binding.',
-                allowedPayloadShapes: [
-                    BindingPayloadShapeEnum::AttributeList,
-                ],
-                attributeDefinitions: [
-                    new AttributeDefinition(
-                        identifier: 'type',
-                        label: 'Type',
-                        description: 'The event type.',
-                        valueType: AttributeValueTypeEnum::String,
-                        required: true,
-                        repeatable: false,
-                        allowedValues: null,
-                    ),
-                    new AttributeDefinition(
-                        identifier: 'subject',
-                        label: 'Subject',
-                        description: 'The event subject.',
-                        valueType: AttributeValueTypeEnum::String,
-                        required: true,
-                        repeatable: false,
-                        allowedValues: null,
-                    ),
-                ],
-            ),
-        ]);
+        $vocabulary = new Vocabulary(
+            'test-vocabulary',
+            'Test Vocabulary',
+            '0.1.0',
+            [
+                new BindingTypeDefinition(
+                    identifier: 'event',
+                    label: 'Event',
+                    description: 'An event binding.',
+                    allowedPayloadShapes: [
+                        BindingPayloadShapeEnum::AttributeList,
+                    ],
+                    attributeDefinitions: [
+                        new AttributeDefinition(
+                            identifier: 'type',
+                            label: 'Type',
+                            description: 'The event type.',
+                            valueType: AttributeValueTypeEnum::String,
+                            required: true,
+                            repeatable: false,
+                            allowedValues: null,
+                        ),
+                        new AttributeDefinition(
+                            identifier: 'subject',
+                            label: 'Subject',
+                            description: 'The event subject.',
+                            valueType: AttributeValueTypeEnum::String,
+                            required: true,
+                            repeatable: false,
+                            allowedValues: null,
+                        ),
+                    ],
+                ),
+            ]
+        );
 
         $validator = new Validator($vocabulary);
         $validationResult = $validator->validate($parseResult->getDocument());
@@ -478,27 +518,32 @@ it(
         $source = '@event[tag:war, tag:historic]';
         $parseResult = $parser->parse($source);
 
-        $vocabulary = new Vocabulary([
-            new BindingTypeDefinition(
-                identifier: 'event',
-                label: 'Event',
-                description: 'An event binding.',
-                allowedPayloadShapes: [
-                    BindingPayloadShapeEnum::AttributeList,
-                ],
-                attributeDefinitions: [
-                    new AttributeDefinition(
-                        identifier: 'tag',
-                        label: 'Tag',
-                        description: 'A tag.',
-                        valueType: AttributeValueTypeEnum::String,
-                        required: false,
-                        repeatable: true,
-                        allowedValues: null,
-                    ),
-                ],
-            ),
-        ]);
+        $vocabulary = new Vocabulary(
+            'test-vocabulary',
+            'Test Vocabulary',
+            '0.1.0',
+            [
+                new BindingTypeDefinition(
+                    identifier: 'event',
+                    label: 'Event',
+                    description: 'An event binding.',
+                    allowedPayloadShapes: [
+                        BindingPayloadShapeEnum::AttributeList,
+                    ],
+                    attributeDefinitions: [
+                        new AttributeDefinition(
+                            identifier: 'tag',
+                            label: 'Tag',
+                            description: 'A tag.',
+                            valueType: AttributeValueTypeEnum::String,
+                            required: false,
+                            repeatable: true,
+                            allowedValues: null,
+                        ),
+                    ],
+                ),
+            ]
+        );
 
         $validator = new Validator($vocabulary);
         $validationResult = $validator->validate($parseResult->getDocument());
@@ -524,7 +569,12 @@ it(
     function () {
         $parser = new Parser();
         $parseResult = $parser->parse('Just some ordinary prose.');
-        $validator = new Validator(new Vocabulary([]));
+        $validator = new Validator(new Vocabulary(
+            'test-vocabulary',
+            'Test Vocabulary',
+            '0.1.0',
+            []
+        ));
         $validationResult = $validator->validate($parseResult->getDocument());
         expect($validationResult->getDiagnostics())->toBe([])
             ->and($validationResult->hasDiagnostics())->toBeFalse()
@@ -551,27 +601,32 @@ it(
         $source = '@event[status:draft]';
         $parseResult = $parser->parse($source);
 
-        $vocabulary = new Vocabulary([
-            new BindingTypeDefinition(
-                identifier: 'event',
-                label: 'Event',
-                description: 'An event binding.',
-                allowedPayloadShapes: [
-                    BindingPayloadShapeEnum::AttributeList,
-                ],
-                attributeDefinitions: [
-                    new AttributeDefinition(
-                        identifier: 'status',
-                        label: 'Status',
-                        description: 'The event status.',
-                        valueType: AttributeValueTypeEnum::Enum,
-                        required: true,
-                        repeatable: false,
-                        allowedValues: ['draft', 'published'],
-                    ),
-                ],
-            ),
-        ]);
+        $vocabulary = new Vocabulary(
+            'test-vocabulary',
+            'Test Vocabulary',
+            '0.1.0',
+            [
+                new BindingTypeDefinition(
+                    identifier: 'event',
+                    label: 'Event',
+                    description: 'An event binding.',
+                    allowedPayloadShapes: [
+                        BindingPayloadShapeEnum::AttributeList,
+                    ],
+                    attributeDefinitions: [
+                        new AttributeDefinition(
+                            identifier: 'status',
+                            label: 'Status',
+                            description: 'The event status.',
+                            valueType: AttributeValueTypeEnum::Enum,
+                            required: true,
+                            repeatable: false,
+                            allowedValues: ['draft', 'published'],
+                        ),
+                    ],
+                ),
+            ]
+        );
 
         $validator = new Validator($vocabulary);
         $validationResult = $validator->validate($parseResult->getDocument());
@@ -602,27 +657,32 @@ it(
         $source = '@event[status:archived]';
         $parseResult = $parser->parse($source);
 
-        $vocabulary = new Vocabulary([
-            new BindingTypeDefinition(
-                identifier: 'event',
-                label: 'Event',
-                description: 'An event binding.',
-                allowedPayloadShapes: [
-                    BindingPayloadShapeEnum::AttributeList,
-                ],
-                attributeDefinitions: [
-                    new AttributeDefinition(
-                        identifier: 'status',
-                        label: 'Status',
-                        description: 'The event status.',
-                        valueType: AttributeValueTypeEnum::Enum,
-                        required: true,
-                        repeatable: false,
-                        allowedValues: ['draft', 'published'],
-                    ),
-                ],
-            ),
-        ]);
+        $vocabulary = new Vocabulary(
+            'test-vocabulary',
+            'Test Vocabulary',
+            '0.1.0',
+            [
+                new BindingTypeDefinition(
+                    identifier: 'event',
+                    label: 'Event',
+                    description: 'An event binding.',
+                    allowedPayloadShapes: [
+                        BindingPayloadShapeEnum::AttributeList,
+                    ],
+                    attributeDefinitions: [
+                        new AttributeDefinition(
+                            identifier: 'status',
+                            label: 'Status',
+                            description: 'The event status.',
+                            valueType: AttributeValueTypeEnum::Enum,
+                            required: true,
+                            repeatable: false,
+                            allowedValues: ['draft', 'published'],
+                        ),
+                    ],
+                ),
+            ]
+        );
 
         $validator = new Validator($vocabulary);
         $validationResult = $validator->validate($parseResult->getDocument());
@@ -659,27 +719,32 @@ it(
         $source = '@event[subject:jane-austen]';
         $parseResult = $parser->parse($source);
 
-        $vocabulary = new Vocabulary([
-            new BindingTypeDefinition(
-                identifier: 'event',
-                label: 'Event',
-                description: 'An event binding.',
-                allowedPayloadShapes: [
-                    BindingPayloadShapeEnum::AttributeList,
-                ],
-                attributeDefinitions: [
-                    new AttributeDefinition(
-                        identifier: 'subject',
-                        label: 'Subject',
-                        description: 'The event subject.',
-                        valueType: AttributeValueTypeEnum::Identifier,
-                        required: true,
-                        repeatable: false,
-                        allowedValues: null,
-                    ),
-                ],
-            ),
-        ]);
+        $vocabulary = new Vocabulary(
+            'test-vocabulary',
+            'Test Vocabulary',
+            '0.1.0',
+            [
+                new BindingTypeDefinition(
+                    identifier: 'event',
+                    label: 'Event',
+                    description: 'An event binding.',
+                    allowedPayloadShapes: [
+                        BindingPayloadShapeEnum::AttributeList,
+                    ],
+                    attributeDefinitions: [
+                        new AttributeDefinition(
+                            identifier: 'subject',
+                            label: 'Subject',
+                            description: 'The event subject.',
+                            valueType: AttributeValueTypeEnum::Identifier,
+                            required: true,
+                            repeatable: false,
+                            allowedValues: null,
+                        ),
+                    ],
+                ),
+            ]
+        );
 
         $validator = new Validator($vocabulary);
         $validationResult = $validator->validate($parseResult->getDocument());
@@ -709,27 +774,32 @@ it(
         $source = '@event[subject:Jane Austen]';
         $parseResult = $parser->parse($source);
 
-        $vocabulary = new Vocabulary([
-            new BindingTypeDefinition(
-                identifier: 'event',
-                label: 'Event',
-                description: 'An event binding.',
-                allowedPayloadShapes: [
-                    BindingPayloadShapeEnum::AttributeList,
-                ],
-                attributeDefinitions: [
-                    new AttributeDefinition(
-                        identifier: 'subject',
-                        label: 'Subject',
-                        description: 'The event subject.',
-                        valueType: AttributeValueTypeEnum::Identifier,
-                        required: true,
-                        repeatable: false,
-                        allowedValues: null,
-                    ),
-                ],
-            ),
-        ]);
+        $vocabulary = new Vocabulary(
+            'test-vocabulary',
+            'Test Vocabulary',
+            '0.1.0',
+            [
+                new BindingTypeDefinition(
+                    identifier: 'event',
+                    label: 'Event',
+                    description: 'An event binding.',
+                    allowedPayloadShapes: [
+                        BindingPayloadShapeEnum::AttributeList,
+                    ],
+                    attributeDefinitions: [
+                        new AttributeDefinition(
+                            identifier: 'subject',
+                            label: 'Subject',
+                            description: 'The event subject.',
+                            valueType: AttributeValueTypeEnum::Identifier,
+                            required: true,
+                            repeatable: false,
+                            allowedValues: null,
+                        ),
+                    ],
+                ),
+            ]
+        );
 
         $validator = new Validator($vocabulary);
         $validationResult = $validator->validate($parseResult->getDocument());
