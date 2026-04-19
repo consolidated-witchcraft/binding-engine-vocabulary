@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use ConundrumCodex\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
 use ConundrumCodex\BindingEngine\Vocabulary\AttributeDefinition;
+use ConundrumCodex\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
 use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidAttributeDefinitionException;
 
 \it(
@@ -226,7 +226,6 @@ use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidAttributeDefinitio
         })->toThrow(InvalidAttributeDefinitionException::class, 'Allowed values may only be defined for enum value types.');
     }
 );
-
 
 \it(
     'rejects empty string allowed values',

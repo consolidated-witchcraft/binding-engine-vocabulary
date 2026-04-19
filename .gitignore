@@ -4,3 +4,4 @@ vendor/
 .idea
 .phpstan
 HANDOVER.md
+.php-cs-fixer.cache

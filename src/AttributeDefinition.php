@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace ConundrumCodex\BindingEngine\Vocabulary;
 
-
 use ConundrumCodex\BindingEngine\Parser\Language\IdentifierPatterns;
-
 use ConundrumCodex\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
 use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidAttributeDefinitionException;
 use ConundrumCodex\BindingEngine\Vocabulary\Interfaces\AttributeDefinitionInterface;

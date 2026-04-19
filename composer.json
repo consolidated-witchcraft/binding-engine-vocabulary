@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "conundrum-codex/binding-engine-parser": ">=0.1.0 <1.0.0"
     },
     "autoload": {
@@ -30,10 +30,11 @@
         }
     ],
     "require-dev": {
-        "pestphp/pest": "^4.4",
-        "symfony/var-dumper": "^8.0",
+        "friendsofphp/php-cs-fixer": "^3.80",
         "mockery/mockery": "^1.6",
-        "phpstan/phpstan": "^2.1"
+        "pestphp/pest": "^4.4",
+        "phpstan/phpstan": "^2.1",
+        "symfony/var-dumper": "^8.0"
     },
     "config": {
         "allow-plugins": {
@@ -42,6 +43,8 @@
         "sort-packages": true
     },
     "scripts": {
+        "php-cs:check": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --dry-run --diff --verbose --sequential",
+        "php-cs:fix": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --verbose --sequential",
         "test": "pest",
         "stan": "php -d memory_limit=1G vendor/bin/phpstan analyse"
     },
