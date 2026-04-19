@@ -110,7 +110,7 @@ readonly class AttributeDefinition implements AttributeDefinitionInterface
             $seen = [];
 
             foreach ($this->allowedValues as $value) {
-                if (!is_string($value) || trim($value) === '') {
+                if (trim($value) === '') {
                     throw new InvalidAttributeDefinitionException(
                         'Allowed values must be non-empty strings.'
                     );

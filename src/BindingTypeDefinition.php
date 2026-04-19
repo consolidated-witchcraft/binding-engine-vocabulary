@@ -130,22 +130,6 @@ readonly class BindingTypeDefinition implements BindingTypeDefinitionInterface
             );
         }
 
-        foreach ($this->allowedPayloadShapes as $allowedPayloadShape) {
-            if (!$allowedPayloadShape instanceof BindingPayloadShapeEnum) {
-                throw new InvalidBindingTypeDefinitionException(
-                    'Binding type definition contains an invalid payload shape.'
-                );
-            }
-        }
-
-        foreach ($this->attributeDefinitions as $attributeDefinition) {
-            if (!$attributeDefinition instanceof AttributeDefinitionInterface) {
-                throw new InvalidBindingTypeDefinitionException(
-                    'Binding type definition contains an invalid attribute definition.'
-                );
-            }
-        }
-
         $seenAttributeIdentifiers = [];
 
         foreach ($this->attributeDefinitions as $attributeDefinition) {

@@ -43,6 +43,10 @@
         "sort-packages": true
     },
     "scripts": {
+        "hooks:install": [
+            "git config core.hooksPath .githooks",
+            "chmod +x .githooks/pre-commit"
+        ],
         "php-cs:check": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --dry-run --diff --verbose --sequential",
         "php-cs:fix": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --verbose --sequential",
         "test": "pest",

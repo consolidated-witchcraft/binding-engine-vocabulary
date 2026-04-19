@@ -166,3 +166,19 @@ $diagnostics = [
 ```bash
   composer require conundrum-codex/binding-vocabulary
 ```
+
+## Development Hooks
+
+Install the repository pre-commit hook with:
+
+```bash
+composer hooks:install
+```
+
+This configures Git to use `.githooks/pre-commit`, which runs:
+
+- `composer php-cs:check`
+- `composer stan`
+- `composer test`
+
+The commit is rejected if any of those commands fail.
