@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-use ConundrumCodex\BindingEngine\Parser\Ast\Exceptions\SourceSpanConstructionException;
-use ConundrumCodex\BindingEngine\Parser\Ast\Nodes\Exceptions\InvalidAttributeAssignmentNodeException;
-use ConundrumCodex\BindingEngine\Parser\Ast\Nodes\Exceptions\InvalidAttributeListPayloadNodeException;
-use ConundrumCodex\BindingEngine\Parser\Ast\Nodes\Exceptions\InvalidBindingNodeException;
-use ConundrumCodex\BindingEngine\Parser\Ast\Nodes\Exceptions\InvalidShorthandPayloadNodeException;
-use ConundrumCodex\BindingEngine\Parser\Ast\Nodes\Exceptions\InvalidTextNodeException;
-use ConundrumCodex\BindingEngine\Parser\Diagnostics\Exceptions\DiagnosticConstructionException;
-use ConundrumCodex\BindingEngine\Parser\Parser;
-use ConundrumCodex\BindingEngine\Vocabulary\AttributeDefinition;
-use ConundrumCodex\BindingEngine\Vocabulary\BindingTypeDefinition;
-use ConundrumCodex\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
-use ConundrumCodex\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
-use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidAttributeDefinitionException;
-use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinitionException;
-use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidVocabularyException;
-use ConundrumCodex\BindingEngine\Vocabulary\Validator;
-use ConundrumCodex\BindingEngine\Vocabulary\Vocabulary;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Ast\Exceptions\SourceSpanConstructionException;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Ast\Nodes\Exceptions\InvalidAttributeAssignmentNodeException;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Ast\Nodes\Exceptions\InvalidAttributeListPayloadNodeException;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Ast\Nodes\Exceptions\InvalidBindingNodeException;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Ast\Nodes\Exceptions\InvalidShorthandPayloadNodeException;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Ast\Nodes\Exceptions\InvalidTextNodeException;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Diagnostics\Exceptions\DiagnosticConstructionException;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Parser;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\AttributeDefinition;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\BindingTypeDefinition;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Exceptions\InvalidAttributeDefinitionException;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinitionException;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Exceptions\InvalidVocabularyException;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Validator;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Vocabulary;
 
 it(
     'validates a correct shorthand binding without diagnostics',

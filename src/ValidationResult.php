@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ConundrumCodex\BindingEngine\Vocabulary;
+namespace ConsolidatedWitchcraft\BindingEngine\Vocabulary;
 
-use ConundrumCodex\BindingEngine\Parser\Diagnostics\Enums\DiagnosticSeverityEnum;
-use ConundrumCodex\BindingEngine\Parser\Diagnostics\Interfaces\DiagnosticInterface;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Diagnostics\Enums\DiagnosticSeverityEnum;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Diagnostics\Interfaces\DiagnosticInterface;
 
 readonly class ValidationResult
 {

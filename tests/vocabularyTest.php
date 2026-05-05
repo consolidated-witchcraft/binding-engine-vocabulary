@@ -1,12 +1,12 @@
 <?php
 
-use ConundrumCodex\BindingEngine\Vocabulary\AttributeDefinition;
-use ConundrumCodex\BindingEngine\Vocabulary\BindingTypeDefinition;
-use ConundrumCodex\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
-use ConundrumCodex\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
-use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinitionException;
-use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidVocabularyException;
-use ConundrumCodex\BindingEngine\Vocabulary\Vocabulary;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\AttributeDefinition;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\BindingTypeDefinition;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinitionException;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Exceptions\InvalidVocabularyException;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Vocabulary;
 
 \it(
     'constructs correctly',

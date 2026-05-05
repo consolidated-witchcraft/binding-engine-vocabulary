@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace ConundrumCodex\BindingEngine\Vocabulary;
+namespace ConsolidatedWitchcraft\BindingEngine\Vocabulary;
 
-use ConundrumCodex\BindingEngine\Parser\Ast\Nodes\AttributeAssignmentNode;
-use ConundrumCodex\BindingEngine\Parser\Ast\Nodes\AttributeListPayloadNode;
-use ConundrumCodex\BindingEngine\Parser\Ast\Nodes\BindingNode;
-use ConundrumCodex\BindingEngine\Parser\Ast\Nodes\DocumentNode;
-use ConundrumCodex\BindingEngine\Parser\Diagnostics\Diagnostic;
-use ConundrumCodex\BindingEngine\Parser\Diagnostics\Enums\DiagnosticSeverityEnum;
-use ConundrumCodex\BindingEngine\Parser\Diagnostics\Exceptions\DiagnosticConstructionException;
-use ConundrumCodex\BindingEngine\Parser\Language\IdentifierPatterns;
-use ConundrumCodex\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
-use ConundrumCodex\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
-use ConundrumCodex\BindingEngine\Vocabulary\Interfaces\AttributeDefinitionInterface;
-use ConundrumCodex\BindingEngine\Vocabulary\Interfaces\BindingTypeDefinitionInterface;
-use ConundrumCodex\BindingEngine\Vocabulary\Interfaces\ValidatorInterface;
-use ConundrumCodex\BindingEngine\Vocabulary\Interfaces\VocabularyInterface;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Ast\Nodes\AttributeAssignmentNode;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Ast\Nodes\AttributeListPayloadNode;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Ast\Nodes\BindingNode;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Ast\Nodes\DocumentNode;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Diagnostics\Diagnostic;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Diagnostics\Enums\DiagnosticSeverityEnum;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Diagnostics\Exceptions\DiagnosticConstructionException;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Language\IdentifierPatterns;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Interfaces\AttributeDefinitionInterface;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Interfaces\BindingTypeDefinitionInterface;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Interfaces\ValidatorInterface;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Interfaces\VocabularyInterface;
 
 final readonly class Validator implements ValidatorInterface
 {

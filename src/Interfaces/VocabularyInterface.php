@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ConundrumCodex\BindingEngine\Vocabulary\Interfaces;
+namespace ConsolidatedWitchcraft\BindingEngine\Vocabulary\Interfaces;
 
 interface VocabularyInterface
 {

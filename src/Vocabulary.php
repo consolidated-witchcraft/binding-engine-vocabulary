@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ConundrumCodex\BindingEngine\Vocabulary;
+namespace ConsolidatedWitchcraft\BindingEngine\Vocabulary;
 
-use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidVocabularyException;
-use ConundrumCodex\BindingEngine\Vocabulary\Interfaces\BindingTypeDefinitionInterface;
-use ConundrumCodex\BindingEngine\Vocabulary\Interfaces\VocabularyInterface;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Exceptions\InvalidVocabularyException;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Interfaces\BindingTypeDefinitionInterface;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Interfaces\VocabularyInterface;
 
 readonly class Vocabulary implements VocabularyInterface
 {

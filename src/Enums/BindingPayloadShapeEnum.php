@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ConundrumCodex\BindingEngine\Vocabulary\Enums;
+namespace ConsolidatedWitchcraft\BindingEngine\Vocabulary\Enums;
 
 enum BindingPayloadShapeEnum: string
 {

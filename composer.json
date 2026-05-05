@@ -1,21 +1,22 @@
 {
-    "name": "conundrum-codex/binding-engine-vocabulary",
+    "name": "consolidated-witchcraft/binding-engine-vocabulary",
     "description": "Vocabulary builder for Binding Engine",
     "type": "library",
     "license": "AGPL-3.0-or-later",
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:Conundrum-Codex/binding-engine-parser.git"
+            "url": "https://github.com/consolidated-witchcraft/binding-engine-parser.git",
+            "no-api": true
         }
     ],
     "require": {
         "php": "^8.4",
-        "conundrum-codex/binding-engine-parser": ">=0.1.0 <1.0.0"
+        "consolidated-witchcraft/binding-engine-parser": ">=0.1.0 <1.0.0"
     },
     "autoload": {
         "psr-4": {
-            "ConundrumCodex\\BindingEngine\\Vocabulary\\": "src/"
+            "ConsolidatedWitchcraft\\BindingEngine\\Vocabulary\\": "src/"
         }
     },
     "autoload-dev": {
@@ -54,9 +55,9 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "homepage": "https://github.com/Conundrum-Codex/binding-engine-vocabulary",
+    "homepage": "https://github.com/consolidated-witchcraft/binding-engine-vocabulary",
     "support": {
-        "issues": "https://github.com/Conundrum-Codex/binding-engine-vocabulary/issues",
-        "source": "https://github.com/Conundrum-Codex/binding-engine-vocabulary"
+        "issues": "https://github.com/consolidated-witchcraft/binding-engine-vocabulary/issues",
+        "source": "https://github.com/consolidated-witchcraft/binding-engine-vocabulary"
     }
 }

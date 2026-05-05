@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace ConundrumCodex\BindingEngine\Vocabulary;
+namespace ConsolidatedWitchcraft\BindingEngine\Vocabulary;
 
-use ConundrumCodex\BindingEngine\Parser\Language\IdentifierPatterns;
-use ConundrumCodex\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
-use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinitionException;
-use ConundrumCodex\BindingEngine\Vocabulary\Interfaces\AttributeDefinitionInterface;
-use ConundrumCodex\BindingEngine\Vocabulary\Interfaces\BindingTypeDefinitionInterface;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Language\IdentifierPatterns;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinitionException;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Interfaces\AttributeDefinitionInterface;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Interfaces\BindingTypeDefinitionInterface;
 
 readonly class BindingTypeDefinition implements BindingTypeDefinitionInterface
 {

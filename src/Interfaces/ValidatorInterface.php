@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ConundrumCodex\BindingEngine\Vocabulary\Interfaces;
+namespace ConsolidatedWitchcraft\BindingEngine\Vocabulary\Interfaces;
 
-use ConundrumCodex\BindingEngine\Parser\Ast\Nodes\DocumentNode;
-use ConundrumCodex\BindingEngine\Vocabulary\ValidationResult;
+use ConsolidatedWitchcraft\BindingEngine\Parser\Ast\Nodes\DocumentNode;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\ValidationResult;
 
 interface ValidatorInterface
 {

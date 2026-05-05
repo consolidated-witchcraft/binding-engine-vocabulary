@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use ConundrumCodex\BindingEngine\Vocabulary\AttributeDefinition;
-use ConundrumCodex\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
-use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidAttributeDefinitionException;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\AttributeDefinition;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Exceptions\InvalidAttributeDefinitionException;
 
 \it(
     'constructs correctly for non enum types',
