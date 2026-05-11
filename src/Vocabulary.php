@@ -10,11 +10,11 @@ use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Interfaces\VocabularyInterfa
 
 readonly class Vocabulary implements VocabularyInterface
 {
-    public const string VALID_VOCABULARY_IDENTIFIER_PATTERN = '/^(?!-)(?!.*--)[a-z-]+(?<!-)$/';
+    private const string VALID_VOCABULARY_IDENTIFIER_PATTERN = '/^(?!-)(?!.*--)[a-z-]+(?<!-)$/';
 
-    public const string VALID_VOCABULARY_LABEL_PATTERN = '/^[A-Za-z0-9][A-Za-z0-9 \-\'&,.:()]*[A-Za-z0-9)]$/';
+    private const string VALID_VOCABULARY_LABEL_PATTERN = '/^[A-Za-z0-9][A-Za-z0-9 \-\'&,.:()]*[A-Za-z0-9)]$/';
 
-    public const string VALID_SEMANTIC_VERSION_PATTERN = '/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\d*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*))*))?(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$/';
+    private const string VALID_SEMANTIC_VERSION_PATTERN = '/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\d*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*))*))?(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$/';
 
     /**
      * @param list<BindingTypeDefinitionInterface> $bindingTypeDefinitions
@@ -63,9 +63,9 @@ readonly class Vocabulary implements VocabularyInterface
      */
     private function guard(): void
     {
-        $this->guardIdentifier();
-        $this->guardLabel();
-        $this->guardVersion();
+        self::isValidIdentifier($this->identifier);
+        self::isValidLabel($this->label);
+        self::isValidVocabularyVersion($this->version);
 
         $seenBindingTypeIdentifiers = [];
 
@@ -93,23 +93,23 @@ readonly class Vocabulary implements VocabularyInterface
     /**
      * @throws InvalidVocabularyException
      */
-    private function guardIdentifier(): void
+    public static function isValidIdentifier(string $identifier): void
     {
-        if (!preg_match(self::VALID_VOCABULARY_IDENTIFIER_PATTERN, $this->identifier)) {
+        if (!preg_match(self::VALID_VOCABULARY_IDENTIFIER_PATTERN, $identifier)) {
             throw new InvalidVocabularyException(
-                sprintf("The identifier '%s' is invalid. Identifiers may only contain lowercase letters and hyphens, and may not be empty.", $this->identifier)
+                sprintf("The identifier '%s' is invalid. Identifiers may only contain lowercase letters and hyphens, and may not be empty.", $identifier)
             );
         }
 
-        if (strlen($this->identifier) > 64) {
+        if (strlen($identifier) > 64) {
             throw new InvalidVocabularyException(
-                sprintf("The identifier '%s' is invalid. A maximum of 64 characters is allowed.", $this->identifier)
+                sprintf("The identifier '%s' is invalid. A maximum of 64 characters is allowed.", $identifier)
             );
         }
 
-        if (strlen($this->identifier) < 3) {
+        if (strlen($identifier) < 3) {
             throw new InvalidVocabularyException(
-                sprintf("The identifier '%s' is invalid. A minimum of 3 characters is allowed.", $this->identifier)
+                sprintf("The identifier '%s' is invalid. A minimum of 3 characters is allowed.", $identifier)
             );
         }
     }
@@ -117,22 +117,22 @@ readonly class Vocabulary implements VocabularyInterface
     /**
      * @throws InvalidVocabularyException
      */
-    private function guardLabel(): void
+    private static function isValidLabel(string $label): void
     {
-        $labelLength = strlen(trim($this->label));
+        $labelLength = strlen(trim($label));
         if ($labelLength > 64) {
             throw new InvalidVocabularyException(
-                sprintf("The label '%s' is invalid. Labels may be a maximum of 64 characters long.", $this->label)
+                sprintf("The label '%s' is invalid. Labels may be a maximum of 64 characters long.", $label)
             );
         }
         if ($labelLength < 3) {
             throw new InvalidVocabularyException(
-                sprintf("The label '%s' is invalid. Labels must be a minimum of 3 characters long.", $this->label)
+                sprintf("The label '%s' is invalid. Labels must be a minimum of 3 characters long.", $label)
             );
         }
-        if (!preg_match(self::VALID_VOCABULARY_LABEL_PATTERN, $this->label)) {
+        if (!preg_match(self::VALID_VOCABULARY_LABEL_PATTERN, $label)) {
             throw new InvalidVocabularyException(
-                sprintf("The label '%s' is invalid. Labels may only contain numbers, letters, spaces, hyphens, apostrophes, ampersands, commas, parentheses, colons and full-stops (periods).", $this->label)
+                sprintf("The label '%s' is invalid. Labels may only contain numbers, letters, spaces, hyphens, apostrophes, ampersands, commas, parentheses, colons and full-stops (periods).", $label)
             );
         }
     }
@@ -140,11 +140,11 @@ readonly class Vocabulary implements VocabularyInterface
     /**
      * @throws InvalidVocabularyException
      */
-    private function guardVersion(): void
+    public static function isValidVocabularyVersion(string $vocabularyVersion): void
     {
-        if (!preg_match(self::VALID_SEMANTIC_VERSION_PATTERN, $this->version)) {
+        if (!preg_match(self::VALID_SEMANTIC_VERSION_PATTERN, $vocabularyVersion)) {
             throw new InvalidVocabularyException(
-                sprintf("The version '%s' is invalid. Versions must conform to semantic versioning 2.0 standards.", $this->version)
+                sprintf("The version '%s' is invalid. Versions must conform to semantic versioning 2.0 standards.", $vocabularyVersion)
             );
         }
     }
