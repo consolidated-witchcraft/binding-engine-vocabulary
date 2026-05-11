@@ -63,9 +63,9 @@ readonly class Vocabulary implements VocabularyInterface
      */
     private function guard(): void
     {
-        self::isValidIdentifier($this->identifier);
-        self::isValidLabel($this->label);
-        self::isValidVocabularyVersion($this->version);
+        self::assertValidIdentifier($this->identifier);
+        self::assertValidLabel($this->label);
+        self::assertValidVocabularyVersion($this->version);
 
         $seenBindingTypeIdentifiers = [];
 
@@ -93,7 +93,7 @@ readonly class Vocabulary implements VocabularyInterface
     /**
      * @throws InvalidVocabularyException
      */
-    public static function isValidIdentifier(string $identifier): void
+    public static function assertValidIdentifier(string $identifier): void
     {
         if (!preg_match(self::VALID_VOCABULARY_IDENTIFIER_PATTERN, $identifier)) {
             throw new InvalidVocabularyException(
@@ -117,7 +117,7 @@ readonly class Vocabulary implements VocabularyInterface
     /**
      * @throws InvalidVocabularyException
      */
-    private static function isValidLabel(string $label): void
+    private static function assertValidLabel(string $label): void
     {
         $labelLength = strlen(trim($label));
         if ($labelLength > 64) {
@@ -140,7 +140,7 @@ readonly class Vocabulary implements VocabularyInterface
     /**
      * @throws InvalidVocabularyException
      */
-    public static function isValidVocabularyVersion(string $vocabularyVersion): void
+    public static function assertValidVocabularyVersion(string $vocabularyVersion): void
     {
         if (!preg_match(self::VALID_SEMANTIC_VERSION_PATTERN, $vocabularyVersion)) {
             throw new InvalidVocabularyException(
