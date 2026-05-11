@@ -10,11 +10,11 @@ use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Interfaces\VocabularyInterfa
 
 readonly class Vocabulary implements VocabularyInterface
 {
-    private const string VALID_VOCABULARY_IDENTIFIER_PATTERN = '/^(?!-)(?!.*--)[a-z-]+(?<!-)$/';
+    public const string VALID_VOCABULARY_IDENTIFIER_PATTERN = '/^(?!-)(?!.*--)[a-z-]+(?<!-)$/';
 
-    private const string VALID_VOCABULARY_LABEL_PATTERN = '/^[A-Za-z0-9][A-Za-z0-9 \-\'&,.:()]*[A-Za-z0-9)]$/';
+    public const string VALID_VOCABULARY_LABEL_PATTERN = '/^[A-Za-z0-9][A-Za-z0-9 \-\'&,.:()]*[A-Za-z0-9)]$/';
 
-    private const string VALID_SEMANTIC_VERSION_PATTERN = '/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\d*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*))*))?(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$/';
+    public const string VALID_SEMANTIC_VERSION_PATTERN = '/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\d*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*))*))?(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$/';
 
     /**
      * @param list<BindingTypeDefinitionInterface> $bindingTypeDefinitions
